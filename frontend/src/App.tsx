@@ -19,14 +19,14 @@ function App() {
     
     try {
       const data = await getDecision(situation);
-      // Simulate extra loading for "Thinking" effect
+      // Extra loading buffer for "Thinking" effect
       setTimeout(() => {
         setResult(data);
         setLoading(false);
-      }, 1000);
+      }, 500);
     } catch (err: any) {
-      const errorMessage = err.response?.data?.detail || err.message || 'Something went wrong while analyzing.';
-      setError(errorMessage);
+      console.error("API Error:", err);
+      setError('Something went wrong. Please try again.');
       setLoading(false);
     }
   };
@@ -73,8 +73,8 @@ function App() {
                       />
                     ))}
                   </div>
-                  <p className="text-slate-400 font-medium animate-pulse">
-                    Analyzing your situation...
+                  <p className="text-slate-400 font-bold uppercase tracking-widest animate-pulse">
+                    Thinking...
                   </p>
                 </motion.div>
               )}
