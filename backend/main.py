@@ -20,10 +20,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Initialize OpenAI client with OpenRouter base URL
+# Initialize OpenAI client (API key checked during request)
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
-    api_key=os.getenv("OPENAI_API_KEY")
+    api_key=os.getenv("OPENAI_API_KEY") or "dummy"
 )
 
 class DecisionRequest(BaseModel):
