@@ -23,7 +23,7 @@ app.add_middleware(
 # Initialize OpenAI client (API key checked during request)
 client = OpenAI(
     base_url="https://openrouter.ai/api/v1",
-    api_key=os.getenv("OPENAI_API_KEY") or "dummy"
+    api_key=os.getenv("OPENROUTER_API_KEY") or os.getenv("OPENAI_API_KEY") or "dummy"
 )
 
 class DecisionRequest(BaseModel):
@@ -54,9 +54,10 @@ async def get_decision(request: DecisionRequest):
     print(f"Analyzing dilemma: {situation}")
 
     try:
-        # Check if API key is set
-        if not os.getenv("OPENAI_API_KEY") or os.getenv("OPENAI_API_KEY") == "your_key_here":
-            raise ValueError("OpenAI API Key is missing. Please set it in the .env file.")
+        # Check both potential key names
+        api_key = os.getenv("OPENROUTER_API_KEY") or os.getenv("OPENAI_API_KEY")
+        if not api_key or api_key == "your_key_here":
+            raise ValueError("API Key is missing. Please set OPENROUTER_API_KEY or OPENAI_API_KEY in the environment.")
 
         response = client.chat.completions.create(
             model="openrouter/free",

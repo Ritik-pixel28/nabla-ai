@@ -5,3 +5,5 @@ python-dotenv
 pydantic
 pydantic-settings
 axios
+gunicorn
+httpx
